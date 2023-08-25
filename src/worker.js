@@ -1,12 +1,4 @@
-/**
- * Welcome to Cloudflare Workers! This is your first worker.
- *
- * - Run `npm run dev` in your terminal to start a development server
- * - Open a browser tab at http://localhost:8787/ to see your worker in action
- * - Run `npm run deploy` to publish your worker
- *
- * Learn more at https://developers.cloudflare.com/workers/
- */
+// Need npm install js-base64
 import { Base64 } from 'js-base64'
 
 export default {
@@ -93,20 +85,20 @@ export default {
 			const buffer = await new Response(decompressedStream).arrayBuffer();
 			const decompressed = new Uint8Array(buffer)
 			const ndjson = enc.decode(decompressed)
-			console.log(`Received ndjson is ${ndjson}`)
+			console.log(`Received ndjson === ${ndjson}`)
 			const json = ndjson.split('\n')
 
 			// Retrieve Column String from json keys
 			const columns = Object.keys(JSON.parse(json[0]))
 			const columns_string = columns.join(",")
-			console.log(`columns_string is ${columns_string}`)
+			console.log(`columns_string === ${columns_string}`)
 
 			// Make Values String
 			const replace = `\"(${columns.join("|")})\":`;
 			const re = new RegExp(replace, "g");
 			const values = json.map(item => item.replace(re, '').replace(/{/g, '(').replace(/}/g, ')'))
 			const values_string = values.join(",")
-			console.log(`values_string is ${values_string}`)
+			console.log(`values_string === ${values_string}`)
 
 			// Make POST data to Big Query
 			const payload = {
@@ -115,7 +107,7 @@ export default {
 				location: "US",
 				useLegacySql: false,
 			}
-			console.log(`POST data is ${JSON.stringify(payload)}`)
+			console.log(`POST data === ${JSON.stringify(payload)}`)
 
 			// POST QueryRequest
 			return await fetch(
