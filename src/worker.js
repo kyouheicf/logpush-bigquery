@@ -101,7 +101,7 @@ export default {
 		// Make Values String
 		const replace = `\"(${columns.join("|")})\":`;
 		const re = new RegExp(replace, "g");
-		const values = json.map(item => item.replace(re, '').slice(1, -1).replace(/{/g, '\'{').replace(/}/g, '}\''))
+		const values = json.map(item => item.replace(re, '').slice(1, -1).replace(/{/g, 'JSON \'{').replace(/}/g, '}\''))
 		const values_string = values.join("),(")
 		console.log(`values_string === ${values_string} `)
 
