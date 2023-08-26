@@ -92,18 +92,20 @@ export default {
 		}
 
 		// Retrieve Column String from json keys
-		const json = ndjson.split('\n')
-		console.log(`Received json[0] === ${json[0]}`)
+		const json_array = ndjson.split('\n')
+		const json = json_array.filter(Boolean)
+		//console.log(`Received json[0] === ${json[0]}`)
+		//console.log(`Received json[-1] === ${json[-1]}`)
 		const columns = Object.keys(JSON.parse(json[0]))
 		const columns_string = columns.join(",")
-		console.log(`columns_string === ${columns_string}`)
+		//console.log(`columns_string === ${columns_string}`)
 
 		// Make Values String
 		const replace = `\"(${columns.join("|")})\":`;
 		const re = new RegExp(replace, "g");
 		const values = json.map(item => item.replace(re, '').slice(1, -1).replace(/{/g, 'JSON \'{').replace(/}/g, '}\''))
 		const values_string = values.join("),(")
-		console.log(`values_string === ${values_string} `)
+		//console.log(`values_string === ${values_string} `)
 
 		// Make POST data to Big Query
 		const postjson = {
