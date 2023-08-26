@@ -282,7 +282,7 @@
   {
     "name": "JA3Hash",
     "type": "STRING",
-    "mode": "REPEATED"
+    "mode": "NULLABLE"
   },
   {
     "name": "OriginDNSResponseTimeMs",
