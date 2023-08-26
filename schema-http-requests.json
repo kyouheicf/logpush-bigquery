@@ -135,11 +135,6 @@
     "mode": "NULLABLE"
   },
   {
-    "name": "ClientSrcPort",
-    "type": "INT64",
-    "mode": "NULLABLE"
-  },
-  {
     "name": "ClientSSLCipher",
     "type": "STRING",
     "mode": "NULLABLE"
@@ -147,6 +142,11 @@
   {
     "name": "ClientSSLProtocol",
     "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "ClientSrcPort",
+    "type": "INT64",
     "mode": "NULLABLE"
   },
   {
@@ -168,6 +168,11 @@
     "name": "ContentScanObjTypes",
     "type": "STRING",
     "mode": "REPEATED"
+  },
+  {
+    "name": "Cookies",
+    "type": "JSON",
+    "mode": "NULLABLE"
   },
   {
     "name": "EdgeCFConnectingO2O",
@@ -213,7 +218,7 @@
     "name": "EdgeRateLimitID",
     "type": "INT64",
     "mode": "NULLABLE"
-  }, 
+  },
   {
     "name": "EdgeRequestHost",
     "type": "STRING",
@@ -260,11 +265,6 @@
     "mode": "NULLABLE"
   },
   {
-    "name": "JA3Hash",
-    "type": "STRING",
-    "mode": "REPEATED"
-  },
-  {
     "name": "FirewallMatchesActions",
     "type": "STRING",
     "mode": "REPEATED"
@@ -276,6 +276,11 @@
   },
   {
     "name": "FirewallMatchesSources",
+    "type": "STRING",
+    "mode": "REPEATED"
+  },
+  {
+    "name": "JA3Hash",
     "type": "STRING",
     "mode": "REPEATED"
   },
@@ -298,14 +303,9 @@
     "name": "OriginResponseBytes",
     "type": "INT64",
     "mode": "NULLABLE"
-  },  
-  {
-    "name": "OriginResponseDurationMs",
-    "type": "INT64",
-    "mode": "NULLABLE"
   },
   {
-    "name": "OriginResponseHeaderReceiveDurationMs",
+    "name": "OriginResponseDurationMs",
     "type": "INT64",
     "mode": "NULLABLE"
   },
@@ -317,6 +317,11 @@
   {
     "name": "OriginResponseHTTPLastModified",
     "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "OriginResponseHeaderReceiveDurationMs",
+    "type": "INT64",
     "mode": "NULLABLE"
   },
   {
@@ -355,6 +360,16 @@
     "mode": "NULLABLE"
   },
   {
+    "name": "RequestHeaders",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "ResponseHeaders",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
     "name": "SecurityAction",
     "type": "STRING",
     "mode": "NULLABLE"
@@ -388,7 +403,7 @@
     "name": "SecuritySources",
     "type": "STRING",
     "mode": "REPEATED"
-  },  
+  },
   {
     "name": "SmartRouteColoID",
     "type": "INT64",
@@ -408,7 +423,7 @@
     "name": "WAFAttackScore",
     "type": "INT64",
     "mode": "NULLABLE"
-  },  
+  },
   {
     "name": "WAFFlags",
     "type": "INT64",

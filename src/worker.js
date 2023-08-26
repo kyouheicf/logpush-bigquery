@@ -73,26 +73,16 @@ export default {
 		const signature = Base64.fromUint8Array(new Uint8Array(outputArrayBuffer), true)
 		const token = `${header}.${payload}.${signature}`
 
-		// Initial pre-flight Logpush Request to confirm the integration check
-		/* const buf = await request.arrayBuffer();
-		const compressed = new Uint8Array(buf);
-		const enc = new TextDecoder("utf-8");
-		console.log(`Initial Request === ${enc.decode(compressed).trim()}`) //{"content":"test","filename":"test.txt"}')
-		if (enc.decode(compressed).trim() === '{"content":"test","filename":"test.txt"}') {
-			const json = '{"content":"test","filename":"test.txt"}';
-			return new Response('Initial pre-flight Logpush Request has been confirmed', {
-				status: 200,
-			})
-		} */
-
 		// Decompress gzipped logpush body to json
+		const buf = await request.arrayBuffer();
+		const enc = new TextDecoder("utf-8");
 		const blob = new Blob([buf])
 		const ds = new DecompressionStream('gzip');
 		const decompressedStream = blob.stream().pipeThrough(ds);
 		const buffer2 = await new Response(decompressedStream).arrayBuffer();
 		const decompressed = new Uint8Array(buffer2)
 		const ndjson = enc.decode(decompressed)
-		console.log(`Received ndjson === ${ndjson}`)
+		//console.log(`Received ndjson === ${ndjson}`)
 
 		// Initial pre-flight Logpush Request to confirm the integration check
 		if (ndjson === '{"content":"test"}') {
@@ -103,6 +93,7 @@ export default {
 
 		// Retrieve Column String from json keys
 		const json = ndjson.split('\n')
+		console.log(`Received json[0] === ${json[0]}`)
 		const columns = Object.keys(JSON.parse(json[0]))
 		const columns_string = columns.join(",")
 		console.log(`columns_string === ${columns_string}`)
@@ -110,21 +101,20 @@ export default {
 		// Make Values String
 		const replace = `\"(${columns.join("|")})\":`;
 		const re = new RegExp(replace, "g");
-		const values = json.map(item => item.replace(re, '').replace(/{/g, '(').replace(/}/g, ')'))
-		const values_string = values.join(",")
-		console.log(`values_string === ${values_string}`)
+		const values = json.map(item => item.replace(re, '').slice(1, -1).replace(/{/g, '\'{').replace(/}/g, '}\''))
+		const values_string = values.join("),(")
+		console.log(`values_string === ${values_string} `)
 
 		// Make POST data to Big Query
 		const postjson = {
 			kind: "bigquery#queryRequest",
-			query: `INSERT INTO ${serviceAccount.project_id}.${env.DATASET_ID}.${env.TABLE_ID} (${columns_string}) VALUES ${values_string}`,
+			query: `INSERT INTO ${serviceAccount.project_id}.${env.DATASET_ID}.${env.TABLE_ID} (${columns_string}) VALUES (${values_string}) `,
 			location: "US",
 			useLegacySql: false,
 		}
-		console.log(`POST data === ${JSON.stringify(postjson)}`)
-
+		console.log(`POST data === ${JSON.stringify(postjson)} `)
 		// POST QueryRequest
-		return await fetch(
+		const res = await fetch(
 			`https://bigquery.googleapis.com/bigquery/v2/projects/${serviceAccount.project_id}/queries`,
 			{
 				method: 'POST',
@@ -135,6 +125,6 @@ export default {
 				}
 			}
 		)
-
+		return res
 	},
 };
