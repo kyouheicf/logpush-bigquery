@@ -361,12 +361,12 @@
   },
   {
     "name": "RequestHeaders",
-    "type": "STRING",
+    "type": "JSON",
     "mode": "NULLABLE"
   },
   {
     "name": "ResponseHeaders",
-    "type": "STRING",
+    "type": "JSON",
     "mode": "NULLABLE"
   },
   {
