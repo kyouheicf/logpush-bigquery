@@ -114,7 +114,7 @@ export default {
 			location: "US",
 			useLegacySql: false,
 		}
-		console.log(`POST data === ${JSON.stringify(postjson)} `)
+		//console.log(`POST data === ${JSON.stringify(postjson)} `)
 		// POST QueryRequest
 		const res = await fetch(
 			`https://bigquery.googleapis.com/bigquery/v2/projects/${serviceAccount.project_id}/queries`,
