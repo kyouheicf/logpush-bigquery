@@ -426,7 +426,7 @@
   },
   {
     "name": "WAFFlags",
-    "type": "INT64",
+    "type": "STRING",
     "mode": "NULLABLE"
   },
   {
