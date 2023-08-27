@@ -117,17 +117,35 @@ export default {
 		}
 		//console.log(`POST data === ${JSON.stringify(postjson)} `)
 		// POST QueryRequest
-		const res = await fetch(
-			`https://bigquery.googleapis.com/bigquery/v2/projects/${serviceAccount.project_id}/queries`,
-			{
-				method: 'POST',
-				body: JSON.stringify(postjson),
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `Bearer ${token}`
+		let response;
+		try {
+			response = await fetch(
+				`https://bigquery.googleapis.com/bigquery/v2/projects/${serviceAccount.project_id}/queries`,
+				{
+					method: 'POST',
+					body: JSON.stringify(postjson),
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${token}`
+					}
 				}
+			)
+			if (!response.ok && !response.redirected) {
+				const body = await response.text();
+				throw new Error(
+					"Bad response at origin. Status: " +
+					response.status +
+					" Body: " +
+					// Ensure the string is small enough to be a header
+					body.trim()
+				);
 			}
-		)
-		return res
+		} catch (err) {
+			console.log(err.toString())
+			return new Response(err, {
+				status: response.status,
+			})
+		}
+		return response;
 	},
 };
