@@ -86,6 +86,7 @@ export default {
 
 		// Initial pre-flight Logpush Request to confirm the integration check
 		if (ndjson === '{"content":"test"}') {
+			console.log(ndjson)
 			return new Response('Initial pre-flight Logpush Request has been confirmed', {
 				status: 200,
 			})
@@ -94,7 +95,7 @@ export default {
 		// Retrieve Column String from json keys
 		const json_array = ndjson.split('\n')
 		const json = json_array.filter(Boolean)
-		//console.log(`Received json[0] === ${json[0]}`)
+		console.log(`Received json[0] === ${json[0]}`)
 		//console.log(`Received json[-1] === ${json[-1]}`)
 		const columns = Object.keys(JSON.parse(json[0]))
 		const columns_string = columns.join(",")
